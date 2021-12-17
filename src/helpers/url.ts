@@ -37,6 +37,13 @@ export function buildUrl(url: string, params?: any): string {
       parts.push(`${encode(key)}=${encode(val)}`)
     })
   })
-  let p = "?" + parts.join("&")
-  return url + p;
+  let serializedParams = parts.join("&")
+  if (serializedParams) {
+    const markIndex = url.indexOf('#')
+    if (markIndex !== -1) {
+      url = url.slice(0, markIndex)
+    }
+    url += (url.indexOf("?")===-1?'?':'&') + serializedParams
+  }
+  return url;
 }
